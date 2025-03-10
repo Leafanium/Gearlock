@@ -1,3 +1,4 @@
+# ========== Unity Ignore Rules ==========
 # Ignore Unity-generated files
 [Ll]ibrary/
 [Tt]emp/
@@ -6,15 +7,24 @@
 [Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
-
-# Ignore crash reports
 [Cc]rash[Rr]eports/
+[Mm]emoryCaptures/
 
 # Ignore auto-generated VS/JetBrains files
-[Mm]emoryCaptures/
-[Dd]ebug/
-
-# Ignore local environment files
 *.csproj
 *.sln
 *.userprefs
+
+# Ignore Unity cache
+**/Library/
+**/Logs/
+**/Packages/*
+!**/Packages/manifest.json
+
+# Ignore non-essential Unity files
+Assets/StreamingAssets/*/*.manifest
+Assets/StreamingAssets/*/*.hash
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
