@@ -12,49 +12,43 @@ public class WanderingAI : MonoBehaviour
     [Header("Randomization Timing")]
     public float targetRefreshTime = 2f;
 
+    [Header("Combat Settings")]
+    public int damageAmount = 10; // Amount of damage to deal to player
+    public float damageCooldown = 1.5f; // Time between damage instances
+
     [Header("References")]
     private Transform player;
     private Vector3 currentDestination;
     private Animator animator;
-
     private float refreshTimer;
     private bool isAlive = true;
+    private float lastDamageTime;
 
     void Start()
     {
-        Debug.Log("WanderingAI: Start() called on " + name);
-
-        GameObject playerObj = GameObject.Find("Player");
+        GameObject playerObj = GameObject.FindWithTag("Player"); // Ensure the player is tagged correctly
         if (playerObj == null)
         {
-            Debug.LogWarning("WanderingAI: Could not find an object named 'Player'. Ensure you have a GameObject in the scene named exactly 'Player'.");
+            Debug.LogWarning("WanderingAI: Could not find 'Player'. Ensure the player GameObject has the 'Player' tag.");
             return;
         }
 
         player = playerObj.transform;
-        animator = GetComponentInChildren<Animator>(); // Ensure Animator is on the Mesh child
+        animator = GetComponentInChildren<Animator>();
 
         if (animator == null)
         {
-            Debug.LogError("WanderingAI: No Animator component found in child objects of " + name);
+            Debug.LogError("WanderingAI: No Animator found in child objects of " + name);
         }
 
         PickRandomDestination();
-        animator.SetBool("isRunning", true); // Start running animation
+        animator.SetBool("isRunning", true);
     }
 
     void Update()
     {
-        if (!isAlive)
-        {
+        if (!isAlive || player == null)
             return;
-        }
-
-        if (player == null)
-        {
-            Debug.LogWarning("WanderingAI: 'player' is null in Update(). Stopping movement.");
-            return;
-        }
 
         MoveTowardDestination();
 
@@ -63,7 +57,6 @@ public class WanderingAI : MonoBehaviour
 
         if (distToDest < stopDistance || refreshTimer >= targetRefreshTime)
         {
-            Debug.Log("WanderingAI: Refreshing destination...");
             PickRandomDestination();
         }
     }
@@ -86,22 +79,15 @@ public class WanderingAI : MonoBehaviour
 
     private void PickRandomDestination()
     {
-        if (!isAlive) return;
+        if (!isAlive || player == null)
+            return;
 
         refreshTimer = 0f;
-
-        if (player == null)
-        {
-            Debug.LogWarning("WanderingAI: Attempted to pick a destination, but 'player' is null!");
-            return;
-        }
 
         Vector2 randomCircle = Random.insideUnitCircle * wanderRadius;
         Vector3 randomOffset = new Vector3(randomCircle.x, 0f, randomCircle.y);
 
         currentDestination = player.position + randomOffset;
-
-        Debug.Log("WanderingAI: New random destination is " + currentDestination);
     }
 
     public void SetAlive(bool alive)
@@ -110,9 +96,44 @@ public class WanderingAI : MonoBehaviour
 
         if (!isAlive)
         {
-            Debug.Log(name + " has died.");
-            animator.SetBool("isRunning", false); // Stop running
-            animator.SetTrigger("Die"); // Play death animation
+            animator.SetBool("isRunning", false);
+            animator.SetTrigger("Die");
+        }
+    }
+
+    // **Damage Player on Collision**
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            DamagePlayer(other.gameObject);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (Time.time - lastDamageTime >= damageCooldown)
+            {
+                DamagePlayer(other.gameObject);
+                lastDamageTime = Time.time;
+            }
+        }
+    }
+
+    private void DamagePlayer(GameObject playerObj)
+    {
+        PlayerCharacter playerCharacter = playerObj.GetComponent<PlayerCharacter>();
+
+        if (playerCharacter != null)
+        {
+            playerCharacter.TakeDamage(damageAmount, transform.position); // Pass enemy position for knockback
+            Debug.Log("WanderingAI: Damaged player for " + damageAmount);
+        }
+        else
+        {
+            Debug.LogError("WanderingAI: No PlayerCharacter component found on Player!");
         }
     }
 }

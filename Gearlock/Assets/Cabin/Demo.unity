@@ -752,6 +752,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9dc6ec91735db4d9a122f1e03b1a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  invincibilityDuration: 1.5
+  knockbackForce: 5
+  knockbackDuration: 0.3
 --- !u!1 &319542785
 GameObject:
   m_ObjectHideFlags: 0
@@ -7341,7 +7345,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 92fafe05dbb18ed46b585484d9f0703e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.388
+  m_Volume: 0.19
   m_Pitch: 1
   Loop: 1
   Mute: 0
