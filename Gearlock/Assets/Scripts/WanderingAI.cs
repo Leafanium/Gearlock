@@ -28,7 +28,7 @@ public class WanderingAI : MonoBehaviour
         {
             Debug.LogWarning("WanderingAI: Could not find an object named 'Player'. " +
                              "Ensure you have a GameObject in the scene named exactly 'Player'.");
-            return; // no player found; script won't do anything
+            return; // No player found; script won't do anything
         }
 
         // Store the player's Transform
@@ -61,13 +61,13 @@ public class WanderingAI : MonoBehaviour
             Debug.Log("WanderingAI: Refreshing destination...");
             PickRandomDestination();
         }
-
+    } // <-- MISSING CLOSING BRACKET WAS ADDED HERE
 
     private void MoveTowardDestination()
     {
         // Calculate direction
         Vector3 direction = (currentDestination - transform.position).normalized;
-        direction.y = 0f; // keep upright if desired
+        direction.y = 0f; // Keep upright if desired
 
         // Rotate to face the direction (smoothly)
         if (direction.sqrMagnitude > 0f)
