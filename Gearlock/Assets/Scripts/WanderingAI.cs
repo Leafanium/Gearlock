@@ -57,7 +57,7 @@ public class WanderingAI : MonoBehaviour
             // If it's been long enough, damage the player and reset timer
             if (damageTimer >= damageDelay)
             {
-                player.Hurt(damageAmount);
+                player.Heal(damageAmount);
                 damageTimer = 0f;
             }
         }

@@ -2,19 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharacter : MonoBehaviour
-{
-    private int health;
+public class PlayerCharacter : MonoBehaviour {
 
-    void Start()
-    {
-        health = 5;
+    private int maxHealth = 100;
+    private int currentHealth;
+
+    void Start() {
+
+        currentHealth = maxHealth;
     }
 
-    public void Hurt(int damage)
-    {
-        health -= damage;
-        Debug.Log($"Health: {health}");
+
+    public bool CanHeal() {
+
+        return currentHealth < maxHealth;
+
+    }
+
+    public void Heal(int amount) {
+        
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        Debug.Log("Healed! Health is:" + currentHealth);
     }
 }
 
