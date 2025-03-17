@@ -6,73 +6,70 @@ public class WanderingAI : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 2f;
-    public float stopDistance = 1.5f;   // How close to get before picking new random offset
-    public float wanderRadius = 3f;     // Random offset radius around player
+    public float stopDistance = 1.5f;
+    public float wanderRadius = 3f;
 
     [Header("Randomization Timing")]
-    public float targetRefreshTime = 2f; // How often to pick a new random offset
+    public float targetRefreshTime = 2f;
 
-    [Header("Combat Settings")]
-    public float attackRange = 2f;      // Distance at which AI can damage the player
-    public float damageDelay = 1f;      // Time between each damage tick
-    public int damageAmount = 1;
-
-    private PlayerCharacter player;     // Reference to your PlayerCharacter
+    [Header("References")]
+    private Transform player;      // We'll try to find this by name
     private Vector3 currentDestination;
+
     private float refreshTimer;
-    private float damageTimer;
 
     void Start()
     {
-        // Locate the PlayerCharacter in the scene
-        player = FindObjectOfType<PlayerCharacter>();
+        Debug.Log("WanderingAI: Start() called on " + name);
 
-        // Immediately pick a random destination
+        // Try to find a GameObject named "Player"
+        GameObject playerObj = GameObject.Find("Player");
+        if (playerObj == null)
+        {
+            Debug.LogWarning("WanderingAI: Could not find an object named 'Player'. " +
+                             "Ensure you have a GameObject in the scene named exactly 'Player'.");
+            return; // no player found; script won't do anything
+        }
+
+        // Store the player's Transform
+        player = playerObj.transform;
+        Debug.Log("WanderingAI: Found the player object: " + player.name);
+
+        // Immediately pick a random destination if the player was found
         PickRandomDestination();
     }
 
     void Update()
     {
-        // If no player found, do nothing
-        if (player == null) return;
+        // If no player assigned, exit early
+        if (player == null)
+        {
+            Debug.LogWarning("WanderingAI: 'player' is null in Update(). Stopping movement.");
+            return;
+        }
 
         // Move toward the current destination
         MoveTowardDestination();
 
-        // Check distance to current destination; refresh if close or time is up
+        // Check distance to current destination
         float distToDest = Vector3.Distance(transform.position, currentDestination);
         refreshTimer += Time.deltaTime;
+
+        // If we’re close or time is up, choose a new destination
         if (distToDest < stopDistance || refreshTimer >= targetRefreshTime)
         {
+            Debug.Log("WanderingAI: Refreshing destination...");
             PickRandomDestination();
         }
 
-        // Check if AI is close enough to deal damage
-        float distToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distToPlayer <= attackRange)
-        {
-            // Accumulate timer for damage
-            damageTimer += Time.deltaTime;
-
-            // If it's been long enough, damage the player and reset timer
-            if (damageTimer >= damageDelay)
-            {
-                player.Heal(damageAmount);
-                damageTimer = 0f;
-            }
-        }
-        else
-        {
-            // If out of range, reset the damage timer so we wait again
-            damageTimer = 0f;
-        }
-    }
 
     private void MoveTowardDestination()
     {
-        // Face the destination (only on Y-axis if you prefer upright rotation)
+        // Calculate direction
         Vector3 direction = (currentDestination - transform.position).normalized;
-        direction.y = 0f;
+        direction.y = 0f; // keep upright if desired
+
+        // Rotate to face the direction (smoothly)
         if (direction.sqrMagnitude > 0f)
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction);
@@ -85,12 +82,21 @@ public class WanderingAI : MonoBehaviour
 
     private void PickRandomDestination()
     {
-        // Reset refresh timer
         refreshTimer = 0f;
 
-        // Pick a random point around the player's position
+        // If the player is somehow null, bail out
+        if (player == null)
+        {
+            Debug.LogWarning("WanderingAI: Attempted to pick a destination, but 'player' is null!");
+            return;
+        }
+
+        // Randomly pick a point around the player within wanderRadius
         Vector2 randomCircle = Random.insideUnitCircle * wanderRadius;
         Vector3 randomOffset = new Vector3(randomCircle.x, 0f, randomCircle.y);
-        currentDestination = player.transform.position + randomOffset;
+
+        currentDestination = player.position + randomOffset;
+
+        Debug.Log("WanderingAI: New random destination is " + currentDestination);
     }
 }
