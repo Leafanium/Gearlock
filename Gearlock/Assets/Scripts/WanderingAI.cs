@@ -61,7 +61,7 @@ public class WanderingAI : MonoBehaviour
             Debug.Log("WanderingAI: Refreshing destination...");
             PickRandomDestination();
         }
-    }
+
 
     private void MoveTowardDestination()
     {
