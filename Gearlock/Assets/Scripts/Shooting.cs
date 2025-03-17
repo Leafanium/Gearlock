@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using TMPro; // Updated to use TextMeshPro
+using TMPro;
 
 public class FPS_Shooting : MonoBehaviour
 {
@@ -15,9 +15,15 @@ public class FPS_Shooting : MonoBehaviour
 
     [Header("References")]
     public Camera fpsCam;
-    public ParticleSystem muzzleFlash;
-    public GameObject impactEffect;
-    public TMP_Text ammoText; // Updated to TMP_Text for TextMeshPro
+    public TMP_Text ammoText;
+    public Animator gunAnimator;
+
+    [Header("Audio")]
+    public AudioSource gunAudioSource;
+    public AudioClip gunShotClip;
+    public AudioClip reloadClip;
+    public AudioClip emptyClip;
+    public AudioClip bulletImpactClip; // New impact sound
 
     private float nextTimeToFire = 0f;
 
@@ -48,7 +54,17 @@ public class FPS_Shooting : MonoBehaviour
     {
         isReloading = true;
         Debug.Log("Reloading...");
+
+        // Play Reload Sound
+        if (gunAudioSource && reloadClip)
+            gunAudioSource.PlayOneShot(reloadClip);
+
+        // Trigger reload animation if assigned
+        if (gunAnimator)
+            gunAnimator.SetTrigger("Reload");
+
         yield return new WaitForSeconds(reloadTime);
+
         currentAmmo = maxAmmo;
         isReloading = false;
         UpdateAmmoUI();
@@ -56,23 +72,34 @@ public class FPS_Shooting : MonoBehaviour
 
     void Shoot()
     {
-        muzzleFlash.Play();
+        if (currentAmmo <= 0)
+        {
+            if (gunAudioSource && emptyClip)
+                gunAudioSource.PlayOneShot(emptyClip);
+            return;
+        }
+
         currentAmmo--;
         UpdateAmmoUI();
+
+        // Play Gunshot Sound
+        if (gunAudioSource && gunShotClip)
+            gunAudioSource.PlayOneShot(gunShotClip);
 
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
             Debug.Log(hit.transform.name);
 
-            EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
-            if (target != null)
+            // Play bullet impact sound if something is hit
+            if (gunAudioSource && bulletImpactClip)
+                gunAudioSource.PlayOneShot(bulletImpactClip);
+
+            // Damage enemy if hit
+            if (hit.transform.TryGetComponent<EnemyHealth>(out var target))
             {
                 target.TakeDamage(damage);
             }
-
-            GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impactGO, 1f);
         }
     }
 
@@ -80,7 +107,7 @@ public class FPS_Shooting : MonoBehaviour
     {
         if (ammoText != null)
         {
-            ammoText.text = "Ammo: " + currentAmmo + "/" + maxAmmo;
+            ammoText.text = $"Ammo: {currentAmmo}/{maxAmmo}";
         }
     }
 }
