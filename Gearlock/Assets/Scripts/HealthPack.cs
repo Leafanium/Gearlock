@@ -5,8 +5,8 @@ using UnityEngine;
 public class HealthPack : MonoBehaviour
 {
     [SerializeField] private int healAmount = 20;
-    [SerializeField] private AudioClip pickupSound;  // Sound when health pack is collected
-    [SerializeField] private AudioClip healthFullSound; // Sound when health is already full
+    [SerializeField] private AudioClip pickupSound;  
+    [SerializeField] private AudioClip healthFullSound; 
     [SerializeField] private GameObject pickupEffect;
 
     private void OnTriggerEnter(Collider other)
