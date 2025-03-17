@@ -9,22 +9,16 @@ public class WanderingAI : MonoBehaviour
     public float stopDistance = 1.5f;
     public float wanderRadius = 3f;
 
-    [Header("Attack Settings")]
-    public float attackRange = 1.5f; // Distance at which the AI will start attacking
-    public int damage = 10; // Amount of damage per attack
-    public float attackCooldown = 1.5f; // Time between attacks
-
     [Header("Randomization Timing")]
     public float targetRefreshTime = 2f;
 
     [Header("References")]
     private Transform player;
-    private PlayerCharacter playerCharacter;
     private Vector3 currentDestination;
+    private Animator animator;
 
     private float refreshTimer;
     private bool isAlive = true;
-    private bool canAttack = true; // Attack cooldown control
 
     void Start()
     {
@@ -33,22 +27,28 @@ public class WanderingAI : MonoBehaviour
         GameObject playerObj = GameObject.Find("Player");
         if (playerObj == null)
         {
-            Debug.LogWarning("WanderingAI: Could not find an object named 'Player'. " +
-                             "Ensure you have a GameObject in the scene named exactly 'Player'.");
+            Debug.LogWarning("WanderingAI: Could not find an object named 'Player'. Ensure you have a GameObject in the scene named exactly 'Player'.");
             return;
         }
 
         player = playerObj.transform;
-        playerCharacter = player.GetComponent<PlayerCharacter>();
+        animator = GetComponentInChildren<Animator>(); // Ensure Animator is on the Mesh child
 
-        Debug.Log("WanderingAI: Found the player object: " + player.name);
+        if (animator == null)
+        {
+            Debug.LogError("WanderingAI: No Animator component found in child objects of " + name);
+        }
 
         PickRandomDestination();
+        animator.SetBool("isRunning", true); // Start running animation
     }
 
     void Update()
     {
-        if (!isAlive) return;
+        if (!isAlive)
+        {
+            return;
+        }
 
         if (player == null)
         {
@@ -56,25 +56,14 @@ public class WanderingAI : MonoBehaviour
             return;
         }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= attackRange)
-        {
-            if (canAttack)
-            {
-                StartCoroutine(AttackPlayer());
-            }
-        }
-        else
-        {
-            MoveTowardDestination();
-        }
+        MoveTowardDestination();
 
         float distToDest = Vector3.Distance(transform.position, currentDestination);
         refreshTimer += Time.deltaTime;
 
         if (distToDest < stopDistance || refreshTimer >= targetRefreshTime)
         {
+            Debug.Log("WanderingAI: Refreshing destination...");
             PickRandomDestination();
         }
     }
@@ -111,20 +100,8 @@ public class WanderingAI : MonoBehaviour
         Vector3 randomOffset = new Vector3(randomCircle.x, 0f, randomCircle.y);
 
         currentDestination = player.position + randomOffset;
-    }
 
-    IEnumerator AttackPlayer()
-    {
-        canAttack = false;
-
-        if (playerCharacter != null)
-        {
-            playerCharacter.TakeDamage(damage);
-            Debug.Log("Zombie attacked! Player health is now: " + playerCharacter.GetCurrentHealth());
-        }
-
-        yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
+        Debug.Log("WanderingAI: New random destination is " + currentDestination);
     }
 
     public void SetAlive(bool alive)
@@ -134,6 +111,8 @@ public class WanderingAI : MonoBehaviour
         if (!isAlive)
         {
             Debug.Log(name + " has died.");
+            animator.SetBool("isRunning", false); // Stop running
+            animator.SetTrigger("Die"); // Play death animation
         }
     }
 }
