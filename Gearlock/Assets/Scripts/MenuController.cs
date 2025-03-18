@@ -5,7 +5,7 @@ public class MenuController : MonoBehaviour
 {
     public void StartGame()
     {
-        FindObjectOfType<FadeManager>().FadeToScene("Demo"); // Loads the game
+        SceneManager.LoadScene("Demo"); // Change to your actual game scene name
     }
 
     public void QuitGame()
