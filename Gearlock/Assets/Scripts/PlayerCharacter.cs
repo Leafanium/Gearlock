@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
@@ -7,8 +6,8 @@ public class PlayerCharacter : MonoBehaviour
     [Header("Health Settings")]
     public int maxHealth = 100;
     private int currentHealth;
-    private bool isInvincible = false; // Invincibility flag after taking damage
-    public float invincibilityDuration = 1.5f; // Time before player can be damaged again
+    private bool isInvincible = false;
+    public float invincibilityDuration = 1.5f;
 
     [Header("Knockback Settings")]
     public float knockbackForce = 5f;
@@ -16,15 +15,18 @@ public class PlayerCharacter : MonoBehaviour
     private Rigidbody rb;
 
     [Header("References")]
+    private UIManager uiManager;
     private GameOverManager gameOverManager;
-    private Animator animator; // Optional animator reference
+    private Animator animator;
 
     void Start()
     {
         currentHealth = maxHealth;
-        gameOverManager = FindObjectOfType<GameOverManager>(); // Find GameOverManager in the scene
-        rb = GetComponent<Rigidbody>(); // Ensure Rigidbody is attached
-        animator = GetComponent<Animator>(); // Ensure Animator is attached if available
+        uiManager = FindObjectOfType<UIManager>();
+        gameOverManager = FindObjectOfType<GameOverManager>();
+        rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        UpdateHealthUI();
     }
 
     public bool CanHeal()
@@ -35,27 +37,17 @@ public class PlayerCharacter : MonoBehaviour
     public void Heal(int amount)
     {
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        Debug.Log("Healed! Health is: " + currentHealth);
         UpdateHealthUI();
     }
 
-    // Method: Takes Damage from Enemy Attacks
     public void TakeDamage(int amount, Vector3 damageSource)
     {
-        if (isInvincible) return; // If invincible, ignore damage
+        if (isInvincible) return;
 
         currentHealth -= amount;
-        currentHealth = Mathf.Max(currentHealth, 0); // Prevents health from going below zero
-        Debug.Log("Player took damage! Health is: " + currentHealth);
-
-        if (animator != null)
-        {
-            animator.SetTrigger("Hurt"); // Trigger damage animation if available
-        }
-
+        currentHealth = Mathf.Max(currentHealth, 0);
         StartCoroutine(ApplyKnockback(damageSource));
         StartCoroutine(InvincibilityFrames());
-
         UpdateHealthUI();
 
         if (currentHealth <= 0)
@@ -64,42 +56,32 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
-    // Method: Get Current Health
     public int GetCurrentHealth()
     {
         return currentHealth;
     }
 
-    // Method: Handle Player Death
     private void Die()
     {
         Debug.Log("Player has died!");
-
-        if (animator != null)
-        {
-            animator.SetTrigger("Die"); // Trigger death animation if available
-        }
-
         if (gameOverManager != null)
         {
-            gameOverManager.TriggerGameOver(); // Calls Game Over screen
+            gameOverManager.TriggerGameOver();
         }
     }
 
-    // Method: Apply Knockback Effect
     private IEnumerator ApplyKnockback(Vector3 damageSource)
     {
         if (rb == null) yield break;
 
         Vector3 knockbackDirection = (transform.position - damageSource).normalized;
-        knockbackDirection.y = 0f; // Keep knockback horizontal
+        knockbackDirection.y = 0f;
         rb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
 
         yield return new WaitForSeconds(knockbackDuration);
-        rb.velocity = Vector3.zero; // Stop movement after knockback duration
+        rb.velocity = Vector3.zero;
     }
 
-    // Method: Enable Invincibility for a brief duration
     private IEnumerator InvincibilityFrames()
     {
         isInvincible = true;
@@ -107,10 +89,11 @@ public class PlayerCharacter : MonoBehaviour
         isInvincible = false;
     }
 
-    // Optional: Update Health UI (If using UI elements)
     private void UpdateHealthUI()
     {
-        // Call a UI manager method here if you have one
-        // Example: UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+        if (uiManager != null)
+        {
+            uiManager.UpdateHealthUI(currentHealth);
+        }
     }
 }
