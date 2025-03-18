@@ -27,7 +27,7 @@ Cabin, Tree, Grass, and Floor assets provided by Unity
 
 Contributions -  
 
-Hakim - asset creation, main menu, player ui, creation of the world map and also all of the animations, created the intro animation for Work in Progress
+Hakim - asset creation, main menu, player & gun movement, player ui, creation of the world map and also all of the animations, created the intro animation for Work in Progress
 
 Nathaniel - healing system, bandage, audio and music, most of the scripts involved with the gun and player health, some of the world building
 
