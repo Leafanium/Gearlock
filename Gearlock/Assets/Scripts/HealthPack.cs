@@ -5,8 +5,8 @@ using UnityEngine;
 public class HealthPack : MonoBehaviour
 {
     [SerializeField] private int healAmount = 20;
-    [SerializeField] private AudioClip pickupSound;  // Sound when health pack is collected
-    [SerializeField] private AudioClip healthFullSound; // Sound when health is already full
+    [SerializeField] private AudioClip pickupSound;  // Pickup sound
+    [SerializeField] private AudioClip healthFullSound; // Already Max Health sound
     [SerializeField] private GameObject pickupEffect;
 
     private void OnTriggerEnter(Collider other)
@@ -17,29 +17,29 @@ public class HealthPack : MonoBehaviour
 
             if (playerCharacter != null)
             {
-                if (playerCharacter.CanHeal()) // Player needs healing
+                if (playerCharacter.CanHeal()) // When you have to heal
                 {
                     playerCharacter.Heal(healAmount);
 
-                    // Play the pickup sound
+                    
                     if (pickupSound != null)
                     {
                         AudioSource.PlayClipAtPoint(pickupSound, transform.position);
                     }
 
-                    // Spawn the pickup effect
+                    
                     if (pickupEffect != null)
                     {
                         Instantiate(pickupEffect, transform.position, Quaternion.identity);
                     }
 
-                    Destroy(gameObject); // Remove the health pack
+                    Destroy(gameObject);
                 }
-                else // Player is already at full health
+                else
                 {
                     Debug.Log("Player health is already full!");
 
-                    // Play the "health full" sound
+                    
                     if (healthFullSound != null)
                     {
                         AudioSource.PlayClipAtPoint(healthFullSound, transform.position);

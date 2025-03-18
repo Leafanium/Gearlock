@@ -6,14 +6,14 @@ public class WeaponShoot : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>(); // Get the Animator component
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // Left-click
+        if (Input.GetMouseButtonDown(0))
         {
-            animator.SetTrigger("Fire"); // Trigger the shoot animation
+            animator.SetTrigger("Fire");
         }
     }
 }

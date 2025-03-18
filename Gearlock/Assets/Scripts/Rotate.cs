@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RotateBandage : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed = 50f; // Speed of rotation
+    [SerializeField] private float rotationSpeed = 50f;
     private Vector3 initialPosition;
 
     void Start()
@@ -15,10 +15,10 @@ public class RotateBandage : MonoBehaviour
 
     void Update()
     {
-        // Keep the object at its original position
+        
         transform.position = initialPosition;
 
-        // Rotates the object in place on the Y-axis only
+        
         transform.Rotate(0, rotationSpeed * Time.deltaTime, 0, Space.Self);
     }
 }

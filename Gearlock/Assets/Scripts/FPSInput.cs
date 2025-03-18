@@ -41,7 +41,7 @@ public class FPSInput : MonoBehaviour
         // Jumping
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            movement.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Physics-based jump calculation
+            movement.y = Mathf.Sqrt(jumpHeight * -2f * gravity); // Jump arc (Asked for Chatgpt's Help with this)
         }
 
         // Apply gravity

@@ -16,14 +16,12 @@ public class PlayerCharacter : MonoBehaviour
 
     [Header("References")]
     private UIManager uiManager;
-    private GameOverManager gameOverManager;
     private Animator animator;
 
     void Start()
     {
         currentHealth = maxHealth;
         uiManager = FindObjectOfType<UIManager>();
-        gameOverManager = FindObjectOfType<GameOverManager>();
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         UpdateHealthUI();
@@ -50,10 +48,6 @@ public class PlayerCharacter : MonoBehaviour
         StartCoroutine(InvincibilityFrames());
         UpdateHealthUI();
 
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
     }
 
     public int GetCurrentHealth()
@@ -61,16 +55,7 @@ public class PlayerCharacter : MonoBehaviour
         return currentHealth;
     }
 
-    private void Die()
-    {
-        Debug.Log("Player has died!");
-        if (gameOverManager != null)
-        {
-            gameOverManager.TriggerGameOver();
-        }
-    }
-
-    private IEnumerator ApplyKnockback(Vector3 damageSource)
+    private IEnumerator ApplyKnockback(Vector3 damageSource) //We wanted bouncy physics
     {
         if (rb == null) yield break;
 

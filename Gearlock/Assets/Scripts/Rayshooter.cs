@@ -34,7 +34,7 @@ public class RayShooter : MonoBehaviour
         int size = 24;
         float posX = cam.pixelWidth / 2 - size / 4;
         float posY = cam.pixelHeight / 2 - size / 2;
-        GUI.Label(new Rect(posX, posY, size, size), "+");
+        GUI.Label(new Rect(posX, posY, size, size), "+"); //Hard Coded this ui label
         GUI.Label(new Rect(10, 10, 200, 30), "Ammo: " + currentAmmo + " / " + maxAmmo);
     }
 

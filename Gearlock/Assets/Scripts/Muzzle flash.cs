@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class ShotgunFire : MonoBehaviour
 {
-    public ParticleSystem muzzleFlashParticles; // Assign in Inspector
+    public ParticleSystem muzzleFlashParticles;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // Left-click to fire
+        if (Input.GetMouseButtonDown(0))
         {
             if (muzzleFlashParticles != null)
-                muzzleFlashParticles.Play(); // Trigger the muzzle flash effect
+                muzzleFlashParticles.Play();
         }
     }
 }

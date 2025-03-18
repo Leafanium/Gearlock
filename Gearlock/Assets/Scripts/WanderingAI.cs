@@ -13,8 +13,8 @@ public class WanderingAI : MonoBehaviour
     public float targetRefreshTime = 2f;
 
     [Header("Combat Settings")]
-    public int damageAmount = 10; // Amount of damage to deal to player
-    public float damageCooldown = 1.5f; // Time between damage instances
+    public int damageAmount = 10;
+    public float damageCooldown = 1.5f;
 
     [Header("References")]
     private Transform player;
@@ -101,7 +101,6 @@ public class WanderingAI : MonoBehaviour
         }
     }
 
-    // **Damage Player on Collision**
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -128,7 +127,7 @@ public class WanderingAI : MonoBehaviour
 
         if (playerCharacter != null)
         {
-            playerCharacter.TakeDamage(damageAmount, transform.position); // Pass enemy position for knockback
+            playerCharacter.TakeDamage(damageAmount, transform.position);
             Debug.Log("WanderingAI: Damaged player for " + damageAmount);
         }
         else

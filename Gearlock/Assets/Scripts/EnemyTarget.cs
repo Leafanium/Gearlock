@@ -27,7 +27,7 @@ public class EnemyTarget : MonoBehaviour
 
             if (uiManager != null)
             {
-                uiManager.AddScore(10); // Add score when enemy dies
+                uiManager.AddScore(10); // Adds score per kill
             }
         }
     }

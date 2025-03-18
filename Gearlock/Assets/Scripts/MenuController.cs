@@ -5,7 +5,7 @@ public class MenuController : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("Demo"); // Change to your actual game scene name
+        SceneManager.LoadScene("Demo");
     }
 
     public void QuitGame()
@@ -13,3 +13,5 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 }
+
+//If you're reading this comment it means we've uploaded our assignment :D

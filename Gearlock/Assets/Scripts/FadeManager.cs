@@ -5,7 +5,7 @@ using System.Collections;
 
 public class FadeManager : MonoBehaviour
 {
-    public Image fadeImage; // Assign a UI black Image
+    public Image fadeImage; // Grabbing UI black Asset
     public float fadeDuration = 1f;
 
     void Start()

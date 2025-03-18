@@ -16,7 +16,6 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        // Auto-assign UI elements if they are not assigned in Inspector
         if (healthText == null) healthText = GameObject.Find("Health").GetComponent<Text>();
         if (scoreText == null) scoreText = GameObject.Find("Score").GetComponent<Text>();
         if (timerText == null) timerText = GameObject.Find("Timer").GetComponent<Text>();

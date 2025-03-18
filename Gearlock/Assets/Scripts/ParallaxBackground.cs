@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
 {
-    public float parallaxEffect = 10f; // Adjust for movement intensity
+    public float parallaxEffect = 10f;
     private Vector3 initialPosition;
 
     void Start()
