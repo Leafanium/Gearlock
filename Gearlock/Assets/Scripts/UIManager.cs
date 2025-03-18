@@ -1,3 +1,4 @@
+using System.Collections; // Fixes IEnumerator error
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,6 @@ public class UIManager : MonoBehaviour
     public Text healthText;
     public Text scoreText;
     public Text timerText;
-    public GameObject gameOverPanel; // Game Over UI Panel
 
     private int score = 0;
     private float timer = 0f;
@@ -21,25 +21,11 @@ public class UIManager : MonoBehaviour
         if (scoreText == null) scoreText = GameObject.Find("Score").GetComponent<Text>();
         if (timerText == null) timerText = GameObject.Find("Timer").GetComponent<Text>();
 
-        // Find GameOverPanel
-        if (gameOverPanel == null)
-        {
-            gameOverPanel = GameObject.Find("GameOverPanel");
-            if (gameOverPanel == null)
-            {
-                Debug.LogError("GameOverPanel not found in the scene! Make sure it's inside the Canvas.");
-            }
-            else
-            {
-                gameOverPanel.SetActive(false); // Hide at start
-            }
-        }
-
         player = FindObjectOfType<PlayerCharacter>();
         if (player != null) UpdateHealthUI(player.GetCurrentHealth());
 
         UpdateScoreUI();
-        StartCoroutine(UpdateTimer());
+        StartCoroutine(UpdateTimerCoroutine());
     }
 
     void Update()
@@ -54,8 +40,6 @@ public class UIManager : MonoBehaviour
     public void UpdateHealthUI(int currentHealth)
     {
         if (healthText != null) healthText.text = "Health: " + currentHealth;
-
-        if (currentHealth <= 0) ShowGameOver();
     }
 
     public void AddScore(int points)
@@ -81,26 +65,12 @@ public class UIManager : MonoBehaviour
         isTimerRunning = false;
     }
 
-    public void ShowGameOver()
+    private IEnumerator UpdateTimerCoroutine()
     {
-        if (gameOverPanel != null)
+        while (isTimerRunning)
         {
-            gameOverPanel.SetActive(true); // Show Game Over overlay
-            isTimerRunning = false; // Stop the timer
-            DisablePlayerControls(); // Disable player movement and actions
+            UpdateTimerUI();
+            yield return new WaitForSeconds(1f);
         }
-    }
-
-    private void DisablePlayerControls()
-    {
-        if (player != null)
-        {
-            player.enabled = false; // Disables PlayerCharacter script
-            player.GetComponent<Rigidbody>().velocity = Vector3.zero; // Stops movement
-        }
-
-        // Disable shooting if applicable
-        RayShooter shooter = FindObjectOfType<RayShooter>();
-        if (shooter != null) shooter.enabled = false;
     }
 }
