@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\gearlock assests\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:assets\\gearlock assests\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UIManager.cs",
+              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
+              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
+              "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T20:21:23.878Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
