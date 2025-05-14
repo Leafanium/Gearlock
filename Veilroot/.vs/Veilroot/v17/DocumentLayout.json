@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E1AB3DB3-CAC9-7BFB-B38A-0517E89BB008}|CodeMonkey_HealthSystem.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\codemonkey\\healthsystem\\scripts\\healthbarui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1AB3DB3-CAC9-7BFB-B38A-0517E89BB008}|CodeMonkey_HealthSystem.csproj|solutionrelative:assets\\codemonkey\\healthsystem\\scripts\\healthbarui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\gearlock assests\\scripts\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:assets\\gearlock assests\\scripts\\enemyspawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\new scripts\\weaponswapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:assets\\new scripts\\weaponswapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,39 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "HealthBarUI.cs",
-              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
-              "RelativeDocumentMoniker": "Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
-              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
-              "RelativeToolTip": "Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAABJAAAAAAAAAA==",
+              "Title": "WeaponSwapper.cs",
+              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\New Scripts\\WeaponSwapper.cs",
+              "RelativeDocumentMoniker": "Assets\\New Scripts\\WeaponSwapper.cs",
+              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\New Scripts\\WeaponSwapper.cs",
+              "RelativeToolTip": "Assets\\New Scripts\\WeaponSwapper.cs",
+              "ViewState": "AgIAAP0AAAAAAAAAAAAmwCkBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T06:16:31.222Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "WanderingAI.cs",
-              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs",
-              "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs",
-              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs",
-              "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAYwIoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T05:25:26.091Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "EnemySpawner.cs",
-              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs",
-              "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs",
-              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs",
-              "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T05:19:58.985Z",
+              "WhenOpened": "2025-05-14T19:52:33.827Z",
               "EditorCaption": ""
             }
           ]
