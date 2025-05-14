@@ -40,11 +40,14 @@ public class EnemyAI : MonoBehaviour
     private float fallTimer;
     private bool isRecovering = false;
 
+    private bool ragdollActive = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.isKinematic = true;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         currentHealth = maxHealth;
 
         if (player == null)
@@ -54,6 +57,23 @@ public class EnemyAI : MonoBehaviour
             currentTarget = climbTargets[Random.Range(0, climbTargets.Length)];
 
         EnemyTracker.activeEnemyCount++;
+
+        // Disable ragdoll on start
+        foreach (var limb in GetComponentsInChildren<Rigidbody>())
+        {
+            if (limb != rb)
+            {
+                limb.isKinematic = true;
+                limb.useGravity = false;
+                limb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            }
+        }
+
+        foreach (var col in GetComponentsInChildren<Collider>())
+        {
+            if (col != GetComponent<Collider>())
+                col.enabled = false;
+        }
     }
 
     void Update()
@@ -133,7 +153,7 @@ public class EnemyAI : MonoBehaviour
         else if (state == State.Falling && weaponType == "Shotgun")
         {
             EnterStunnedState();
-            ActivateRagdoll(); // Optional
+            ActivateRagdoll();
             Die();
         }
     }
@@ -153,12 +173,41 @@ public class EnemyAI : MonoBehaviour
 
         if (state == State.Falling)
         {
+            Debug.Log($"{name} recovering...");
+
+            // Reset physics
             rb.useGravity = false;
             rb.isKinematic = true;
 
-            if (allClimbTargets != null && allClimbTargets.Length > 0)
-                currentTarget = allClimbTargets[Random.Range(0, allClimbTargets.Length)];
+            // Re-enable root collider if disabled
+            Collider rootCol = GetComponent<Collider>();
+            if (rootCol && !rootCol.enabled)
+                rootCol.enabled = true;
 
+            // Disable ragdoll limbs again
+            foreach (var limb in GetComponentsInChildren<Rigidbody>())
+            {
+                if (limb != rb)
+                    limb.isKinematic = true;
+            }
+
+            foreach (var col in GetComponentsInChildren<Collider>())
+            {
+                if (col != rootCol)
+                    col.enabled = false;
+            }
+
+            // Reassign a new climb target
+            if (allClimbTargets != null && allClimbTargets.Length > 0)
+            {
+                currentTarget = allClimbTargets[Random.Range(0, allClimbTargets.Length)];
+                Debug.Log($"{name} reassigned to: {currentTarget.name}");
+            }
+
+            // Heal slightly so SMG can re-knockdown
+            currentHealth = downThreshold + 5f;
+
+            // Reactivate AI
             state = State.Crawling;
         }
 
@@ -168,40 +217,49 @@ public class EnemyAI : MonoBehaviour
     void EnterStunnedState()
     {
         state = State.Stunned;
-        rb.useGravity = false;
-        rb.isKinematic = true;
     }
 
     void Die()
     {
         EnemyTracker.activeEnemyCount--;
         VictoryManager.CheckForWin();
-        Destroy(gameObject, 1.5f);
+        Destroy(gameObject, 2f);
     }
 
     void OnDestroy()
     {
-        if (state != State.Stunned) // Clean up count if killed another way
+        if (!ragdollActive)
             EnemyTracker.activeEnemyCount--;
     }
 
     void ActivateRagdoll()
     {
+        if (ragdollActive) return;
+        ragdollActive = true;
+
         Animator animator = GetComponent<Animator>();
         if (animator) animator.enabled = false;
 
-        Rigidbody[] limbs = GetComponentsInChildren<Rigidbody>();
-        foreach (var limb in limbs)
-        {
-            limb.isKinematic = false;
-            limb.useGravity = true;
-        }
-
-        Collider[] colliders = GetComponentsInChildren<Collider>();
-        foreach (var col in colliders)
-            col.enabled = true;
+        Collider rootCol = GetComponent<Collider>();
+        if (rootCol) rootCol.enabled = false;
 
         rb.isKinematic = true;
-        if (GetComponent<Collider>()) GetComponent<Collider>().enabled = false;
+        rb.useGravity = false;
+
+        foreach (var col in GetComponentsInChildren<Collider>())
+        {
+            if (col != rootCol)
+                col.enabled = true;
+        }
+
+        foreach (var limb in GetComponentsInChildren<Rigidbody>())
+        {
+            if (limb != rb)
+            {
+                limb.isKinematic = false;
+                limb.useGravity = true;
+                limb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            }
+        }
     }
 }
