@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E1AB3DB3-CAC9-7BFB-B38A-0517E89BB008}|CodeMonkey_HealthSystem.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\codemonkey\\healthsystem\\scripts\\healthbarui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1AB3DB3-CAC9-7BFB-B38A-0517E89BB008}|CodeMonkey_HealthSystem.csproj|solutionrelative:assets\\codemonkey\\healthsystem\\scripts\\healthbarui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1B8B20D3-323F-DF05-8E30-4D598C4E11DD}|Assembly-CSharp-Editor.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\tutorialinfo\\scripts\\editor\\readmeeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1B8B20D3-323F-DF05-8E30-4D598C4E11DD}|Assembly-CSharp-Editor.csproj|solutionrelative:assets\\tutorialinfo\\scripts\\editor\\readmeeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\gearlock assests\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\assets\\gearlock assests\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:assets\\gearlock assests\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -27,6 +31,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "HealthBarUI.cs",
+              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
+              "RelativeDocumentMoniker": "Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
+              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
+              "RelativeToolTip": "Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-14T03:37:35.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "ReadmeEditor.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\TutorialInfo\\Scripts\\Editor\\ReadmeEditor.cs",
               "RelativeDocumentMoniker": "Assets\\TutorialInfo\\Scripts\\Editor\\ReadmeEditor.cs",
@@ -39,7 +56,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Readme.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\TutorialInfo\\Scripts\\Readme.cs",
               "RelativeDocumentMoniker": "Assets\\TutorialInfo\\Scripts\\Readme.cs",
@@ -51,7 +68,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "UIManager.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
@@ -59,8 +76,7 @@
               "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T20:21:23.878Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-13T20:21:23.878Z"
             }
           ]
         }
