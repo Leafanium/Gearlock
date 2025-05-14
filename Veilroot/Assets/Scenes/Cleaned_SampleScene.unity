@@ -4699,9 +4699,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barImage: {fileID: 265622965}
-  gameOverPanel: {fileID: 0}
+  gameOverPanel: {fileID: 920160233}
   gameOverText: {fileID: 0}
-  restartButton: {fileID: 0}
+  restartButton: {fileID: 1696140997}
   deathSound: {fileID: 0}
 --- !u!1001 &1506081638
 PrefabInstance:
@@ -5413,7 +5413,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: -18}
+  m_AnchoredPosition: {x: 10, y: -18}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1544552679
@@ -5449,7 +5449,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play Again?
+  m_Text: Press "r" to try again
 --- !u!222 &1544552680
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5899,7 +5899,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696140995}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -135.4}
+  m_LocalPosition: {x: 0, y: 0, z: -71}
   m_LocalScale: {x: 1.79, y: 1.79, z: 1.79}
   m_ConstrainProportionsScale: 1
   m_Children:
