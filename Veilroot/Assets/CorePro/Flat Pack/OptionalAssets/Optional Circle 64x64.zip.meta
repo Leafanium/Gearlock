@@ -1,14 +1,7 @@
 fileFormatVersion: 2
-guid: 28f5aa47aaea74d459d68b5d161f6e88
+guid: 1c5d48643fe34c740a7a4eb206dc6ef6
 DefaultImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 307236
-  packageName: Flat pack - GUI
-  packageVersion: 1.12
-  assetPath: Assets/CorePro/Flat Pack/OptionalAssets/Optional Circle 64x64.zip
-  uploadId: 755885

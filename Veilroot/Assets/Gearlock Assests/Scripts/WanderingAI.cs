@@ -47,6 +47,14 @@ public class WanderingAI : MonoBehaviour
 
     void Update()
     {
+        // ---------- DEBUG CHECK ----------
+        if (player == null)
+        {
+            Debug.LogWarning($"{name}: no player – AI halted");
+            return;                      // we’re done if player is missing
+        }
+        Debug.Log($"{name}: moving toward {currentDestination}");
+        // ----------------------------------
         if (!isAlive || player == null)
             return;
 
