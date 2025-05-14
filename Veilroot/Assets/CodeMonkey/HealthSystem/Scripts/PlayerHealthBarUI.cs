@@ -75,15 +75,34 @@ public class PlayerHealthBarUI : MonoBehaviour
 
     private void ShowGameOverScreen()
     {
+        Debug.Log("Displaying Game Over Screen");
+
         // Unlock the cursor for UI interaction
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // Show the Game Over UI without pausing
-        gameOverPanel.SetActive(true);
-        gameOverText.text = "GAME OVER";
+        // Check if the panel exists before activating
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+            gameOverText.text = "GAME OVER";
+            Debug.Log("Game Over panel activated");
+        }
+        else
+        {
+            Debug.LogError("Game Over panel is null. Please check the assignment in the Inspector.");
+        }
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("Manual Restart Triggered");
+            RestartGame();
+        }
+    }
 
 
 
