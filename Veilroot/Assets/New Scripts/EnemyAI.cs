@@ -1,63 +1,69 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 public class EnemyAI : MonoBehaviour
 {
-    public enum State { Climbing, Shooting, Falling, Stunned }
+    public enum State { Crawling, Shooting, Falling, Stunned }
 
-    [Header("References")]
+    [Header("Core References")]
     public Transform player;
-    public Rigidbody rb;
     public Transform firePoint;
+    public Transform[] climbTargets;          // Assigned by spawner
+    public Transform[] allClimbTargets;       // For re-randomizing on recovery
+    private Transform currentTarget;
 
-    [Header("Climb Targets")]
-    public Transform[] climbTargets;              // Assigned at spawn — can be 1 or more
-    public Transform[] allClimbTargets;           // Optional full set for re-randomizing
+    private Rigidbody rb;
+    private State state = State.Crawling;
+
+    [Header("Surface Detection")]
+    public LayerMask surfaceMask;
+    public float surfaceCheckRadius = 1.5f;
+    public float minSurfaceDistance = 1.8f;
+    public float maxSurfaceDistance = 2.2f;
+
+    [Header("Movement")]
+    public float crawlSpeed = 3f;
+    public float climbRotateSpeed = 10f;
+    public float targetArriveThreshold = 2f;
+
+    [Header("Shooting")]
+    public GameObject acidPrefab;
+    public float shootCooldown = 2f;
+    private float shootTimer;
 
     [Header("Health")]
     public float maxHealth = 100f;
     public float downThreshold = 30f;
     private float currentHealth;
 
-    [Header("Movement")]
-    public float climbSpeed = 2.5f;
-    public float perchDistance = 2f;
-    public float driftIntensity = 0.3f;            // For side wobble
-
-    [Header("Shooting")]
-    public GameObject acidPrefab;
-    public float projectileSpeed = 8f;
-    public float shootCooldown = 2f;
-
     [Header("Recovery")]
     public float recoveryTime = 5f;
-
-    private State state = State.Climbing;
-    private float shootTimer;
     private float fallTimer;
     private bool isRecovering = false;
-
-    private Vector3 driftOffset;
-    private float driftTimer;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.isKinematic = true;
         currentHealth = maxHealth;
 
         if (player == null)
-            player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        GenerateNewDrift();
+        // Pick a climb target
+        if (climbTargets != null && climbTargets.Length > 0)
+        {
+            currentTarget = climbTargets[Random.Range(0, climbTargets.Length)];
+        }
     }
 
     void Update()
     {
         switch (state)
         {
-            case State.Climbing:
-                ClimbTowardTarget();
+            case State.Crawling:
+                AdaptiveCrawl();
                 break;
             case State.Shooting:
                 HandleShooting();
@@ -65,53 +71,46 @@ public class EnemyAI : MonoBehaviour
             case State.Falling:
                 fallTimer += Time.deltaTime;
                 if (fallTimer >= recoveryTime && !isRecovering)
-                {
-                    StartCoroutine(RecoverToClimb());
-                }
-                break;
-            case State.Stunned:
-                // Await shotgun finish
+                    StartCoroutine(RecoverToCrawl());
                 break;
         }
     }
 
-    void ClimbTowardTarget()
+    void AdaptiveCrawl()
     {
-        if (climbTargets == null || climbTargets.Length == 0) return;
+        if (!currentTarget) return;
 
-        Transform target = climbTargets[0];
-        Vector3 targetDir = (target.position - transform.position).normalized;
-
-        // Raycast ahead to find the surface we're supposed to climb
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, targetDir, out hit, 5f))
+        if (Physics.SphereCast(transform.position, surfaceCheckRadius, -transform.up, out RaycastHit hit, maxSurfaceDistance * 2f, surfaceMask))
         {
-            Vector3 wallNormal = hit.normal;
+            Vector3 surfaceNormal = hit.normal;
+            float distFromSurface = hit.distance;
 
-            // Calculate a climb direction along the wall surface
-            Vector3 climbDir = Vector3.Cross(wallNormal, transform.right).normalized;
+            // Adjust hover offset
+            if (distFromSurface < minSurfaceDistance)
+                transform.position += surfaceNormal * (minSurfaceDistance - distFromSurface);
+            else if (distFromSurface > maxSurfaceDistance)
+                transform.position -= surfaceNormal * (distFromSurface - maxSurfaceDistance);
 
-            // Offset from wall by 2.5 units
-            Vector3 offset = wallNormal * 2.5f;
-            Vector3 desiredPos = hit.point + offset;
+            // Move along surface toward target
+            Vector3 toTarget = (currentTarget.position - transform.position).normalized;
+            Vector3 moveDir = Vector3.ProjectOnPlane(toTarget, surfaceNormal).normalized;
+            transform.position += moveDir * crawlSpeed * Time.deltaTime;
 
-            // Move toward the surface-aligned offset
-            transform.position = Vector3.MoveTowards(transform.position, desiredPos, climbSpeed * Time.deltaTime);
+            // Align rotation
+            Quaternion targetRot = Quaternion.LookRotation(moveDir, surfaceNormal);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * climbRotateSpeed);
 
-            // Rotate to face the wall properly
-            transform.rotation = Quaternion.LookRotation(-wallNormal, Vector3.up);
+            // Reached target
+            if (Vector3.Distance(transform.position, currentTarget.position) <= targetArriveThreshold)
+            {
+                state = State.Shooting;
+                shootTimer = shootCooldown;
+            }
         }
         else
         {
-            // No wall detected ahead — fallback to move toward target raw
-            transform.position += targetDir * (climbSpeed * 0.5f) * Time.deltaTime;
-        }
-
-        // Stop if close enough
-        if (Vector3.Distance(transform.position, target.position) <= perchDistance)
-        {
-            state = State.Shooting;
-            shootTimer = shootCooldown;
+            // Drop slowly if no surface detected
+            transform.position += Vector3.down * crawlSpeed * Time.deltaTime;
         }
     }
 
@@ -120,7 +119,6 @@ public class EnemyAI : MonoBehaviour
         if (player == null) return;
 
         shootTimer -= Time.deltaTime;
-
         if (shootTimer <= 0f)
         {
             Vector3 toPlayer = (player.position - firePoint.position).normalized;
@@ -133,37 +131,16 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    IEnumerator RecoverToClimb()
-    {
-        isRecovering = true;
-        rb.isKinematic = true;
-        rb.useGravity = false;
-
-        yield return new WaitForSeconds(0.1f);
-
-        // Optional: Re-randomize climb target from full list
-        if (allClimbTargets != null && allClimbTargets.Length > 0)
-        {
-            climbTargets = new Transform[] { allClimbTargets[Random.Range(0, allClimbTargets.Length)] };
-        }
-
-        state = State.Climbing;
-        fallTimer = 0f;
-        isRecovering = false;
-    }
-
     public void OnHit(float damage)
     {
         currentHealth -= damage;
 
         if (state == State.Falling)
-        {
-            fallTimer = 0f; // reset timer if re-hit while down
-        }
+            fallTimer = 0f;
 
         if (currentHealth <= 0f && state == State.Stunned)
         {
-            Die();
+            Destroy(gameObject);
         }
         else if (currentHealth <= downThreshold && state != State.Falling && state != State.Stunned)
         {
@@ -179,24 +156,25 @@ public class EnemyAI : MonoBehaviour
         fallTimer = 0f;
     }
 
+    IEnumerator RecoverToCrawl()
+    {
+        isRecovering = true;
+        rb.useGravity = false;
+        rb.isKinematic = true;
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (allClimbTargets != null && allClimbTargets.Length > 0)
+            currentTarget = allClimbTargets[Random.Range(0, allClimbTargets.Length)];
+
+        state = State.Crawling;
+        isRecovering = false;
+    }
+
     public void EnterStunnedState()
     {
         state = State.Stunned;
         rb.useGravity = false;
         rb.isKinematic = true;
-    }
-
-    void Die()
-    {
-        Destroy(gameObject);
-    }
-
-    void GenerateNewDrift()
-    {
-        driftOffset = new Vector3(
-            Random.Range(-driftIntensity, driftIntensity),
-            Random.Range(-driftIntensity * 0.25f, driftIntensity * 0.25f), // Slight vertical drift
-            0f
-        );
     }
 }
