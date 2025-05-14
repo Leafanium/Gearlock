@@ -5,11 +5,11 @@ public class EnemyAI : MonoBehaviour
 {
     public enum State { Crawling, Shooting, Falling, Stunned }
 
-    [Header("Core References")]
+    [Header("References")]
     public Transform player;
     public Transform firePoint;
-    public Transform[] climbTargets;          // Assigned by spawner
-    public Transform[] allClimbTargets;       // For re-randomizing on recovery
+    public Transform[] climbTargets;
+    public Transform[] allClimbTargets;
     private Transform currentTarget;
 
     private Rigidbody rb;
@@ -17,9 +17,8 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Surface Detection")]
     public LayerMask surfaceMask;
-    public float surfaceCheckRadius = 1.5f;
-    public float minSurfaceDistance = 1.8f;
-    public float maxSurfaceDistance = 2.2f;
+    public float surfaceRayDistance = 5f;
+    public float surfaceOffset = 4f;
 
     [Header("Movement")]
     public float crawlSpeed = 3f;
@@ -49,13 +48,12 @@ public class EnemyAI : MonoBehaviour
         currentHealth = maxHealth;
 
         if (player == null)
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            player = GameObject.FindGameObjectWithTag("Player")?.transform;
 
-        // Pick a climb target
         if (climbTargets != null && climbTargets.Length > 0)
-        {
             currentTarget = climbTargets[Random.Range(0, climbTargets.Length)];
-        }
+
+        EnemyTracker.activeEnemyCount++;
     }
 
     void Update()
@@ -63,7 +61,7 @@ public class EnemyAI : MonoBehaviour
         switch (state)
         {
             case State.Crawling:
-                AdaptiveCrawl();
+                CrawlToTarget();
                 break;
             case State.Shooting:
                 HandleShooting();
@@ -76,41 +74,31 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void AdaptiveCrawl()
+    void CrawlToTarget()
     {
         if (!currentTarget) return;
 
-        if (Physics.SphereCast(transform.position, surfaceCheckRadius, -transform.up, out RaycastHit hit, maxSurfaceDistance * 2f, surfaceMask))
+        Vector3 toTarget = (currentTarget.position - transform.position).normalized;
+
+        if (Physics.Raycast(transform.position, toTarget, out RaycastHit hit, surfaceRayDistance, surfaceMask))
         {
-            Vector3 surfaceNormal = hit.normal;
-            float distFromSurface = hit.distance;
+            Vector3 wallNormal = hit.normal;
+            Vector3 surfaceAlignedDir = Vector3.Cross(wallNormal, transform.right).normalized;
+            Vector3 targetPos = hit.point + wallNormal * surfaceOffset;
 
-            // Adjust hover offset
-            if (distFromSurface < minSurfaceDistance)
-                transform.position += surfaceNormal * (minSurfaceDistance - distFromSurface);
-            else if (distFromSurface > maxSurfaceDistance)
-                transform.position -= surfaceNormal * (distFromSurface - maxSurfaceDistance);
-
-            // Move along surface toward target
-            Vector3 toTarget = (currentTarget.position - transform.position).normalized;
-            Vector3 moveDir = Vector3.ProjectOnPlane(toTarget, surfaceNormal).normalized;
-            transform.position += moveDir * crawlSpeed * Time.deltaTime;
-
-            // Align rotation
-            Quaternion targetRot = Quaternion.LookRotation(moveDir, surfaceNormal);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, crawlSpeed * Time.deltaTime);
+            Quaternion targetRot = Quaternion.LookRotation(-wallNormal, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * climbRotateSpeed);
-
-            // Reached target
-            if (Vector3.Distance(transform.position, currentTarget.position) <= targetArriveThreshold)
-            {
-                state = State.Shooting;
-                shootTimer = shootCooldown;
-            }
         }
         else
         {
-            // Drop slowly if no surface detected
-            transform.position += Vector3.down * crawlSpeed * Time.deltaTime;
+            transform.position += toTarget * crawlSpeed * Time.deltaTime;
+        }
+
+        if (Vector3.Distance(transform.position, currentTarget.position) <= targetArriveThreshold)
+        {
+            state = State.Shooting;
+            shootTimer = shootCooldown;
         }
     }
 
@@ -124,27 +112,29 @@ public class EnemyAI : MonoBehaviour
             Vector3 toPlayer = (player.position - firePoint.position).normalized;
             GameObject acid = Instantiate(acidPrefab, firePoint.position, Quaternion.LookRotation(toPlayer));
             AcidPellet pellet = acid.GetComponent<AcidPellet>();
-            if (pellet != null)
-                pellet.Launch(toPlayer);
-
+            if (pellet != null) pellet.Launch(toPlayer);
             shootTimer = shootCooldown;
         }
     }
 
-    public void OnHit(float damage)
+    public void OnHit(float damage, string weaponType)
     {
-        currentHealth -= damage;
+        if (state == State.Stunned) return;
 
-        if (state == State.Falling)
-            fallTimer = 0f;
-
-        if (currentHealth <= 0f && state == State.Stunned)
+        if (state == State.Crawling || state == State.Shooting)
         {
-            Destroy(gameObject);
+            currentHealth -= damage;
+
+            if (currentHealth <= downThreshold && weaponType == "SMG")
+            {
+                EnterFall();
+            }
         }
-        else if (currentHealth <= downThreshold && state != State.Falling && state != State.Stunned)
+        else if (state == State.Falling && weaponType == "Shotgun")
         {
-            EnterFall();
+            EnterStunnedState();
+            ActivateRagdoll(); // Optional
+            Die();
         }
     }
 
@@ -159,22 +149,59 @@ public class EnemyAI : MonoBehaviour
     IEnumerator RecoverToCrawl()
     {
         isRecovering = true;
-        rb.useGravity = false;
-        rb.isKinematic = true;
+        yield return new WaitForSeconds(recoveryTime);
 
-        yield return new WaitForSeconds(0.1f);
+        if (state == State.Falling)
+        {
+            rb.useGravity = false;
+            rb.isKinematic = true;
 
-        if (allClimbTargets != null && allClimbTargets.Length > 0)
-            currentTarget = allClimbTargets[Random.Range(0, allClimbTargets.Length)];
+            if (allClimbTargets != null && allClimbTargets.Length > 0)
+                currentTarget = allClimbTargets[Random.Range(0, allClimbTargets.Length)];
 
-        state = State.Crawling;
+            state = State.Crawling;
+        }
+
         isRecovering = false;
     }
 
-    public void EnterStunnedState()
+    void EnterStunnedState()
     {
         state = State.Stunned;
         rb.useGravity = false;
         rb.isKinematic = true;
+    }
+
+    void Die()
+    {
+        EnemyTracker.activeEnemyCount--;
+        VictoryManager.CheckForWin();
+        Destroy(gameObject, 1.5f);
+    }
+
+    void OnDestroy()
+    {
+        if (state != State.Stunned) // Clean up count if killed another way
+            EnemyTracker.activeEnemyCount--;
+    }
+
+    void ActivateRagdoll()
+    {
+        Animator animator = GetComponent<Animator>();
+        if (animator) animator.enabled = false;
+
+        Rigidbody[] limbs = GetComponentsInChildren<Rigidbody>();
+        foreach (var limb in limbs)
+        {
+            limb.isKinematic = false;
+            limb.useGravity = true;
+        }
+
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (var col in colliders)
+            col.enabled = true;
+
+        rb.isKinematic = true;
+        if (GetComponent<Collider>()) GetComponent<Collider>().enabled = false;
     }
 }
