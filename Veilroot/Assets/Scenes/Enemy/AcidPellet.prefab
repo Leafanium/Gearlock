@@ -124,4 +124,4 @@ MonoBehaviour:
   speed: 8
   damage: 10
   lifetime: 5
-  impactEffect: {fileID: 0}
+  impactEffect: {fileID: 919132149155446097, guid: e8cf2c9f9fd815f4d9c3a9b89536df25, type: 3}
