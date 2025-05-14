@@ -36,6 +36,19 @@ public class WeaponSwitcher : MonoBehaviour
     public bool smgAuto = true;
     public bool shotgunAuto = false;
 
+    [Header("Raycast Settings")]
+    public LayerMask hitMask;
+
+    [Header("FX")]
+    public GameObject muzzleFlashPrefab;
+    public Transform muzzleFlashPoint;
+    public AudioSource shootAudio;
+    public Camera mainCam;
+    public float cameraShakeIntensity = 0.1f;
+    public float cameraShakeDuration = 0.1f;
+    public Animator weaponAnimator;
+    public string fireTriggerName = "Fire";
+
     private GameObject currentWeapon;
     private int currentWeaponIndex = -1;
     private int currentAmmo;
@@ -44,7 +57,10 @@ public class WeaponSwitcher : MonoBehaviour
 
     void Start()
     {
-        EquipWeapon(0); // Start with Shotgun
+        if (mainCam == null)
+            mainCam = Camera.main;
+
+        EquipWeapon(0);
     }
 
     void Update()
@@ -93,15 +109,15 @@ public class WeaponSwitcher : MonoBehaviour
 
     void FireWeapon()
     {
-        if (currentAmmo <= 0)
-        {
-            Debug.Log("Click – No ammo.");
-            return;
-        }
+        if (currentAmmo <= 0) return;
 
         fireCooldown = currentWeaponIndex == 0 ? shotgunFireRate : smgFireRate;
         currentAmmo--;
-        Debug.Log($"Fired weapon. Ammo now: {currentAmmo}/{reserveAmmo}");
+
+        TriggerMuzzleFX();
+        PlayShootAudio();
+        TriggerRecoil();
+        ShakeCamera();
 
         if (currentWeaponIndex == 0)
             FireShotgun();
@@ -113,53 +129,42 @@ public class WeaponSwitcher : MonoBehaviour
 
     void FireSMG()
     {
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        RaycastHit hit;
+        if (mainCam == null) return;
 
-        if (Physics.Raycast(ray, out hit, 100f))
+        Ray ray = mainCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, hitMask) && hit.collider != null)
         {
-            Debug.DrawLine(ray.origin, hit.point, Color.red, 1f);
-            EnemyDetector enemy = hit.collider.GetComponent<EnemyDetector>();
-            if (enemy != null)
+            var enemy = hit.collider.GetComponentInParent<EnemyDetector>();
+            if (enemy != null && enemy.gameObject.activeInHierarchy)
             {
                 enemy.OnHit(smgDamage);
-            }
-            else
-            {
-                Debug.Log($"SMG hit {hit.collider.name} (no EnemyDetector attached).");
             }
         }
     }
 
     void FireShotgun()
     {
+        if (mainCam == null) return;
+
         int pelletCount = 8;
         float spreadAngle = 5f;
 
         for (int i = 0; i < pelletCount; i++)
         {
-            Vector3 direction = Camera.main.transform.forward;
+            Vector3 direction = mainCam.transform.forward;
             direction += new Vector3(
                 Random.Range(-spreadAngle, spreadAngle),
                 Random.Range(-spreadAngle, spreadAngle),
                 0
             ) * 0.01f;
 
-            Ray ray = new Ray(Camera.main.transform.position, direction);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 100f))
+            Ray ray = new Ray(mainCam.transform.position, direction);
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, hitMask) && hit.collider != null)
             {
-                Debug.DrawLine(ray.origin, hit.point, Color.yellow, 1f);
-
-                EnemyDetector enemy = hit.collider.GetComponent<EnemyDetector>();
-                if (enemy != null)
+                var enemy = hit.collider.GetComponentInParent<EnemyDetector>();
+                if (enemy != null && enemy.gameObject.activeInHierarchy)
                 {
                     enemy.OnHit(shotgunPelletDamage);
-                }
-                else
-                {
-                    Debug.Log($"Shotgun pellet hit {hit.collider.name}, no EnemyDetector.");
                 }
             }
         }
@@ -175,7 +180,6 @@ public class WeaponSwitcher : MonoBehaviour
             int ammoToLoad = Mathf.Min(neededAmmo, reserveAmmo);
             currentAmmo += ammoToLoad;
             reserveAmmo -= ammoToLoad;
-            Debug.Log($"Reloaded. New ammo: {currentAmmo}/{reserveAmmo}");
             UpdateAmmoUI();
         }
     }
@@ -184,13 +188,56 @@ public class WeaponSwitcher : MonoBehaviour
     {
         if (currentAmmoText != null)
             currentAmmoText.text = currentAmmo.ToString();
-        else
-            Debug.LogWarning("currentAmmoText is not assigned.");
 
         if (reserveAmmoText != null)
             reserveAmmoText.text = reserveAmmo.ToString();
-        else
-            Debug.LogWarning("reserveAmmoText is not assigned.");
+    }
+
+    void TriggerMuzzleFX()
+    {
+        if (muzzleFlashPrefab != null && muzzleFlashPoint != null)
+        {
+            GameObject flash = Instantiate(muzzleFlashPrefab, muzzleFlashPoint.position, muzzleFlashPoint.rotation);
+            Destroy(flash, 0.1f);
+        }
+    }
+
+    void PlayShootAudio()
+    {
+        if (shootAudio != null)
+        {
+            shootAudio.Play();
+        }
+    }
+
+    void TriggerRecoil()
+    {
+        if (weaponAnimator != null && !string.IsNullOrEmpty(fireTriggerName))
+        {
+            weaponAnimator.SetTrigger(fireTriggerName);
+        }
+    }
+
+    void ShakeCamera()
+    {
+        if (mainCam == null) return;
+        StartCoroutine(DoCameraShake());
+    }
+
+    System.Collections.IEnumerator DoCameraShake()
+    {
+        Vector3 originalPos = mainCam.transform.localPosition;
+        float elapsed = 0f;
+
+        while (elapsed < cameraShakeDuration)
+        {
+            Vector3 randomOffset = Random.insideUnitSphere * cameraShakeIntensity;
+            mainCam.transform.localPosition = originalPos + randomOffset;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        mainCam.transform.localPosition = originalPos;
     }
 
     public void PickupAmmo(AmmoPickup.WeaponType type, int amount)
@@ -213,7 +260,5 @@ public class WeaponSwitcher : MonoBehaviour
                 UpdateAmmoUI();
             }
         }
-
-        Debug.Log($"Picked up {amount} {type} ammo.");
     }
 }

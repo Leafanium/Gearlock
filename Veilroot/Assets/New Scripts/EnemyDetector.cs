@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class EnemyDetector : MonoBehaviour
 {
+    [Header("Health Settings")]
     public float maxHealth = 100f;
     private float currentHealth;
+    private bool isDead = false;
 
     void Start()
     {
@@ -12,8 +14,10 @@ public class EnemyDetector : MonoBehaviour
 
     public void OnHit(float damage)
     {
+        if (isDead) return;
+
         currentHealth -= damage;
-        Debug.Log($"{gameObject.name} took {damage} damage. Remaining: {currentHealth}");
+        Debug.Log($"{gameObject.name} took {damage} damage. Remaining HP: {currentHealth}");
 
         if (currentHealth <= 0f)
         {
@@ -21,9 +25,15 @@ public class EnemyDetector : MonoBehaviour
         }
     }
 
-    void Die()
+    private void Die()
     {
-        Debug.Log($"{gameObject.name} is dead.");
-        Destroy(gameObject); // or play a death animation first
+        isDead = true;
+        Debug.Log($"{gameObject.name} has died.");
+
+        // Optional: Trigger animation, particle, sound
+        // Animator anim = GetComponent<Animator>();
+        // if (anim != null) anim.SetTrigger("Die");
+
+        Destroy(gameObject);
     }
 }
