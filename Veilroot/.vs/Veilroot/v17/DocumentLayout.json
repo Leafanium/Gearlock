@@ -1,18 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\",
+  "WorkspaceRootPath": "C:\\Users\\pmari\\Documents\\GitHub\\Gearlock\\Veilroot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B8B20D3-323F-DF05-8E30-4D598C4E11DD}|Assembly-CSharp-Editor.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\tutorialinfo\\scripts\\editor\\readmeeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B8B20D3-323F-DF05-8E30-4D598C4E11DD}|Assembly-CSharp-Editor.csproj|solutionrelative:assets\\tutorialinfo\\scripts\\editor\\readmeeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\pmari\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\gearlock assests\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:assets\\gearlock assests\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\assets\\tutorialinfo\\scripts\\readme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:assets\\tutorialinfo\\scripts\\readme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\pmari\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,44 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ReadmeEditor.cs",
-              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\TutorialInfo\\Scripts\\Editor\\ReadmeEditor.cs",
-              "RelativeDocumentMoniker": "Assets\\TutorialInfo\\Scripts\\Editor\\ReadmeEditor.cs",
-              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\TutorialInfo\\Scripts\\Editor\\ReadmeEditor.cs",
-              "RelativeToolTip": "Assets\\TutorialInfo\\Scripts\\Editor\\ReadmeEditor.cs",
-              "ViewState": "AgIAAM0AAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "WanderingAI.cs",
+              "DocumentMoniker": "C:\\Users\\pmari\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs",
+              "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs",
+              "ToolTip": "C:\\Users\\pmari\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs",
+              "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\WanderingAI.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAYwIoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T01:14:23.38Z",
+              "WhenOpened": "2025-05-14T05:25:26.091Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Readme.cs",
-              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\TutorialInfo\\Scripts\\Readme.cs",
-              "RelativeDocumentMoniker": "Assets\\TutorialInfo\\Scripts\\Readme.cs",
-              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\TutorialInfo\\Scripts\\Readme.cs",
-              "RelativeToolTip": "Assets\\TutorialInfo\\Scripts\\Readme.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "EnemySpawner.cs",
+              "DocumentMoniker": "C:\\Users\\pmari\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs",
+              "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs",
+              "ToolTip": "C:\\Users\\pmari\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs",
+              "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\EnemySpawner.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T01:14:09.139Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UIManager.cs",
-              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
-              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
-              "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\UIManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T20:21:23.878Z",
+              "WhenOpened": "2025-05-14T05:19:58.985Z",
               "EditorCaption": ""
             }
           ]

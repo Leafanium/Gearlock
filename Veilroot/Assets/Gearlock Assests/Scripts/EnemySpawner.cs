@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject enemyPrefab;
-    public float spawnInterval = 3f;     // Their spawnrate
+    public float spawnInterval = 3f;      // Seconds between spawn attempts
 
     [Header("Spawn Points")]
     public Transform[] spawnPoints;
@@ -14,14 +13,22 @@ public class EnemySpawner : MonoBehaviour
     [Header("Raycast Settings")]
     public float maxRaycastDistance = 100f;
 
+    [Header("Concurrent-Limit")]
+    public int maxConcurrent = 10;        // Max on the field at once
+
+    private readonly List<GameObject> activeEnemies = new();  // tracks living enemies
     private float timer = 0f;
 
     void Update()
     {
-        
-        timer += Time.deltaTime;
+        // Clean up any entries that were destroyed
+        activeEnemies.RemoveAll(e => e == null);
 
-      
+        // If we already have the maximum number alive, skip this frame
+        if (activeEnemies.Count >= maxConcurrent) return;
+
+        // Otherwise count up and try to spawn when ready
+        timer += Time.deltaTime;
         if (timer >= spawnInterval)
         {
             SpawnEnemy();
@@ -31,37 +38,25 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        // Lil Safety check
         if (spawnPoints == null || spawnPoints.Length == 0)
         {
-            Debug.LogWarning("No spawn points assigned to EnemySpawner!");
+            Debug.LogWarning("EnemySpawner: No spawn points assigned!");
             return;
         }
 
-        
-        int randomIndex = Random.Range(0, spawnPoints.Length);
-        Transform chosenSpawn = spawnPoints[randomIndex];
+        // Pick a random spawn point
+        int idx = Random.Range(0, spawnPoints.Length);
+        Transform sp = spawnPoints[idx];
 
-        
-        Vector3 spawnPos = chosenSpawn.position;
-
-        
-        RaycastHit hit;
-        if (Physics.Raycast(spawnPos, Vector3.down, out hit, maxRaycastDistance))
-        {
-            
-            spawnPos.y = hit.point.y + 1f;
-        }
+        // Find ground below the spawn point
+        Vector3 pos = sp.position;
+        if (Physics.Raycast(pos, Vector3.down, out RaycastHit hit, maxRaycastDistance))
+            pos.y = hit.point.y + 1f;   // 1-unit offset for capsule pivot
         else
-        {
-            // Helped us debug
-            Debug.LogWarning($"No ground detected below {chosenSpawn.name} within {maxRaycastDistance} units!");
-        }
+            Debug.LogWarning($"EnemySpawner: No ground detected below {sp.name}!");
 
-        // Spawn the robot
-        Instantiate(enemyPrefab, spawnPos, chosenSpawn.rotation);
+        // Instantiate and record the new enemy
+        GameObject newEnemy = Instantiate(enemyPrefab, pos, sp.rotation);
+        activeEnemies.Add(newEnemy);
     }
 }
-
-
-
