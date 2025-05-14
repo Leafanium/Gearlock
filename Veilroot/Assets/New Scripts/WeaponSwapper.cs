@@ -42,7 +42,11 @@ public class WeaponSwitcher : MonoBehaviour
     [Header("FX")]
     public GameObject muzzleFlashPrefab;
     public Transform muzzleFlashPoint;
-    public AudioSource shootAudio;
+    public AudioClip smgShootSound;
+    public AudioClip shotgunShootSound;
+    public AudioClip smgReloadSound;
+    public AudioClip shotgunReloadSound;
+    public AudioClip ammoPickupSound;
     public Camera mainCam;
     public float cameraShakeIntensity = 0.1f;
     public float cameraShakeDuration = 0.1f;
@@ -54,12 +58,13 @@ public class WeaponSwitcher : MonoBehaviour
     private int currentAmmo;
     private int reserveAmmo;
     private float fireCooldown = 0f;
+    private AudioSource audioSource;
 
     void Start()
     {
         if (mainCam == null)
             mainCam = Camera.main;
-
+        audioSource = gameObject.AddComponent<AudioSource>();
         EquipWeapon(0);
     }
 
@@ -180,6 +185,18 @@ public class WeaponSwitcher : MonoBehaviour
             int ammoToLoad = Mathf.Min(neededAmmo, reserveAmmo);
             currentAmmo += ammoToLoad;
             reserveAmmo -= ammoToLoad;
+            AudioClip reloadClip = currentWeaponIndex == 0 ? shotgunReloadSound : smgReloadSound;
+
+            if (audioSource != null && reloadClip != null)
+            {
+                audioSource.PlayOneShot(reloadClip);
+                Debug.Log("Played reload sound: " + reloadClip.name);
+            }
+            else
+            {
+                Debug.LogError("Reload sound or audio source not properly set!");
+            }
+
             UpdateAmmoUI();
         }
     }
@@ -204,11 +221,18 @@ public class WeaponSwitcher : MonoBehaviour
 
     void PlayShootAudio()
     {
-        if (shootAudio != null)
+        AudioClip clip = currentWeaponIndex == 0 ? shotgunShootSound : smgShootSound;
+        if (clip != null)
         {
-            shootAudio.Play();
+            audioSource.PlayOneShot(clip);
+            Debug.Log("Played shooting sound: " + clip.name);
+        }
+        else
+        {
+            Debug.LogError("Missing shoot sound clip for the current weapon!");
         }
     }
+
 
     void TriggerRecoil()
     {
@@ -248,6 +272,11 @@ public class WeaponSwitcher : MonoBehaviour
             if (currentWeaponIndex == 1)
             {
                 reserveAmmo = Mathf.Min(reserveAmmo + amount, 150);
+                if (audioSource != null && ammoPickupSound != null)
+                {
+                    audioSource.PlayOneShot(ammoPickupSound);
+                    Debug.Log("Played ammo pickup sound");
+                }
                 UpdateAmmoUI();
             }
         }
@@ -257,8 +286,14 @@ public class WeaponSwitcher : MonoBehaviour
             if (currentWeaponIndex == 0)
             {
                 reserveAmmo = Mathf.Min(reserveAmmo + amount, 10);
+                if (audioSource != null && ammoPickupSound != null)
+                {
+                    audioSource.PlayOneShot(ammoPickupSound);
+                    Debug.Log("Played ammo pickup sound");
+                }
                 UpdateAmmoUI();
             }
         }
     }
 }
+

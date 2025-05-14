@@ -5015,7 +5015,11 @@ MonoBehaviour:
     m_Bits: 31
   muzzleFlashPrefab: {fileID: 5841356515703518895, guid: eeb42d4c1668d6b45896ab94b89878fa, type: 3}
   muzzleFlashPoint: {fileID: 582498562}
-  shootAudio: {fileID: 0}
+  smgShootSound: {fileID: 8300000, guid: 4d6281aa604094f04839cffa502096c0, type: 3}
+  shotgunShootSound: {fileID: 8300000, guid: ec74244db866d154dba2cfb885da464c, type: 3}
+  smgReloadSound: {fileID: 8300000, guid: e5198250a6a57408bb36e14bc4a322c4, type: 3}
+  shotgunReloadSound: {fileID: 8300000, guid: 5d3ab9b06f05efd41a31dceae0a40f88, type: 3}
+  ammoPickupSound: {fileID: 0}
   mainCam: {fileID: 1352674801}
   cameraShakeIntensity: 0.1
   cameraShakeDuration: 0.1
