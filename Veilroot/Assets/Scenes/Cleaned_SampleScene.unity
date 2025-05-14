@@ -4008,6 +4008,7 @@ GameObject:
   - component: {fileID: 1352674801}
   - component: {fileID: 1352674800}
   - component: {fileID: 1352674799}
+  - component: {fileID: 1352674802}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -4136,6 +4137,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1352674802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352674797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9253bf40c933a784d89be1ad69033b88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshairTexture: {fileID: 2800000, guid: 26e0232432f312b4682f28b20ba80437, type: 3}
+  crosshairSize: 60
 --- !u!1 &1360109671 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4413131885631600438, guid: 8a3c33d22df0d474a86d3a72c9d98bf6, type: 3}
