@@ -1,34 +1,41 @@
-using UnityEngine;
+﻿using UnityEngine;
 using CodeMonkey.HealthSystemCM;
 
+[RequireComponent(typeof(Rigidbody))]
 public class AcidPellet : MonoBehaviour
 {
-    public float speed = 30f;
+    public float speed = 100f;
     public float lifetime = 5f;
     public float damage = 10f;
 
     private Rigidbody rb;
-    private bool launched = false;
-    private Vector3 launchDir;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.linearDamping = 0f;
+        rb.mass = 0.1f;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+    }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, lifetime); // auto-destroy to avoid clutter
+        Destroy(gameObject, lifetime);
     }
 
     public void Launch(Vector3 direction)
     {
-        launchDir = direction.normalized;
-        launched = true;
-    }
-
-    void FixedUpdate()
-    {
-        if (launched && rb != null)
+        if (rb == null)
         {
-            rb.linearVelocity = launchDir * speed;
+            Debug.LogError("Missing Rigidbody on AcidPellet.");
+            return;
         }
+
+        Vector3 force = direction.normalized * speed;
+        rb.AddForce(force, ForceMode.VelocityChange);
+
+        Debug.Log($"\uD83E\uDDEA Acid pellet force applied: {force}");
     }
 
     void OnCollisionEnter(Collision collision)
