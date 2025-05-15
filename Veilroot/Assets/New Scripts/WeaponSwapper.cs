@@ -18,12 +18,6 @@ public class WeaponSwitcher : MonoBehaviour
     public TMP_Text currentAmmoText;
     public TMP_Text reserveAmmoText;
 
-    [Header("Ammo Settings")]
-    public int smgMaxClip = 50;
-    public int smgReserveMax = 150;
-    public int shotgunMaxClip = 2;
-    public int shotgunReserveMax = 10;
-
     [Header("Fire Rates")]
     public float smgFireRate = 0.1f;
     public float shotgunFireRate = 1.0f;
@@ -46,17 +40,14 @@ public class WeaponSwitcher : MonoBehaviour
     public AudioClip shotgunShootSound;
     public AudioClip smgReloadSound;
     public AudioClip shotgunReloadSound;
-    public AudioClip ammoPickupSound;
     public Camera mainCam;
-    public float cameraShakeIntensity = 0.1f;
-    public float cameraShakeDuration = 0.1f;
     public Animator weaponAnimator;
     public string fireTriggerName = "Fire";
 
     private GameObject currentWeapon;
     private int currentWeaponIndex = -1;
     private int currentAmmo;
-    private int reserveAmmo;
+    private int maxClipSize;
     private float fireCooldown = 0f;
     private AudioSource audioSource;
 
@@ -105,16 +96,19 @@ public class WeaponSwitcher : MonoBehaviour
         currentWeapon.transform.localScale = Vector3.one;
 
         weaponIcon.sprite = index == 0 ? shotgunSprite : smgSprite;
-
-        currentAmmo = index == 0 ? shotgunMaxClip : smgMaxClip;
-        reserveAmmo = index == 0 ? shotgunReserveMax : smgReserveMax;
+        maxClipSize = index == 0 ? 2 : 50;
+        currentAmmo = maxClipSize;
 
         UpdateAmmoUI();
     }
 
     void FireWeapon()
     {
-        if (currentAmmo <= 0) return;
+        if (currentAmmo <= 0)
+        {
+            Debug.Log("Out of Ammo! Reload.");
+            return;
+        }
 
         fireCooldown = currentWeaponIndex == 0 ? shotgunFireRate : smgFireRate;
         currentAmmo--;
@@ -175,31 +169,18 @@ public class WeaponSwitcher : MonoBehaviour
         }
     }
 
-
     void Reload()
     {
-        int maxClip = currentWeaponIndex == 0 ? shotgunMaxClip : smgMaxClip;
-        int neededAmmo = maxClip - currentAmmo;
+        currentAmmo = maxClipSize;
 
-        if (reserveAmmo > 0 && neededAmmo > 0)
+        AudioClip reloadClip = currentWeaponIndex == 0 ? shotgunReloadSound : smgReloadSound;
+        if (audioSource != null && reloadClip != null)
         {
-            int ammoToLoad = Mathf.Min(neededAmmo, reserveAmmo);
-            currentAmmo += ammoToLoad;
-            reserveAmmo -= ammoToLoad;
-            AudioClip reloadClip = currentWeaponIndex == 0 ? shotgunReloadSound : smgReloadSound;
-
-            if (audioSource != null && reloadClip != null)
-            {
-                audioSource.PlayOneShot(reloadClip);
-                Debug.Log("Played reload sound: " + reloadClip.name);
-            }
-            else
-            {
-                Debug.LogError("Reload sound or audio source not properly set!");
-            }
-
-            UpdateAmmoUI();
+            audioSource.PlayOneShot(reloadClip);
+            Debug.Log("Reloading...");
         }
+
+        UpdateAmmoUI();
     }
 
     void UpdateAmmoUI()
@@ -208,7 +189,7 @@ public class WeaponSwitcher : MonoBehaviour
             currentAmmoText.text = currentAmmo.ToString();
 
         if (reserveAmmoText != null)
-            reserveAmmoText.text = reserveAmmo.ToString();
+            reserveAmmoText.text = "";  // No text displayed
     }
 
     void TriggerMuzzleFX()
@@ -226,14 +207,8 @@ public class WeaponSwitcher : MonoBehaviour
         if (clip != null)
         {
             audioSource.PlayOneShot(clip);
-            Debug.Log("Played shooting sound: " + clip.name);
-        }
-        else
-        {
-            Debug.LogError("Missing shoot sound clip for the current weapon!");
         }
     }
-
 
     void TriggerRecoil()
     {
@@ -254,9 +229,9 @@ public class WeaponSwitcher : MonoBehaviour
         Vector3 originalPos = mainCam.transform.localPosition;
         float elapsed = 0f;
 
-        while (elapsed < cameraShakeDuration)
+        while (elapsed < 0.1f)
         {
-            Vector3 randomOffset = Random.insideUnitSphere * cameraShakeIntensity;
+            Vector3 randomOffset = Random.insideUnitSphere * 0.1f;
             mainCam.transform.localPosition = originalPos + randomOffset;
             elapsed += Time.deltaTime;
             yield return null;
@@ -264,37 +239,4 @@ public class WeaponSwitcher : MonoBehaviour
 
         mainCam.transform.localPosition = originalPos;
     }
-
-    public void PickupAmmo(AmmoPickup.WeaponType type, int amount)
-    {
-        if (type == AmmoPickup.WeaponType.SMG)
-        {
-            smgReserveMax = Mathf.Min(smgReserveMax + amount, 150);
-            if (currentWeaponIndex == 1)
-            {
-                reserveAmmo = Mathf.Min(reserveAmmo + amount, 150);
-                if (audioSource != null && ammoPickupSound != null)
-                {
-                    audioSource.PlayOneShot(ammoPickupSound);
-                    Debug.Log("Played ammo pickup sound");
-                }
-                UpdateAmmoUI();
-            }
-        }
-        else
-        {
-            shotgunReserveMax = Mathf.Min(shotgunReserveMax + amount, 10);
-            if (currentWeaponIndex == 0)
-            {
-                reserveAmmo = Mathf.Min(reserveAmmo + amount, 10);
-                if (audioSource != null && ammoPickupSound != null)
-                {
-                    audioSource.PlayOneShot(ammoPickupSound);
-                    Debug.Log("Played ammo pickup sound");
-                }
-                UpdateAmmoUI();
-            }
-        }
-    }
 }
-
