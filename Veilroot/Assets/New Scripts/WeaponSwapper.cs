@@ -139,10 +139,10 @@ public class WeaponSwitcher : MonoBehaviour
         Ray ray = mainCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, hitMask) && hit.collider != null)
         {
-            var enemy = hit.collider.GetComponentInParent<EnemyDetector>();
+            var enemy = hit.collider.GetComponentInParent<EnemyAI>();
             if (enemy != null && enemy.gameObject.activeInHierarchy)
             {
-                enemy.OnHit(smgDamage);
+                enemy.OnHit(smgDamage, "SMG");
             }
         }
     }
@@ -166,14 +166,15 @@ public class WeaponSwitcher : MonoBehaviour
             Ray ray = new Ray(mainCam.transform.position, direction);
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, hitMask) && hit.collider != null)
             {
-                var enemy = hit.collider.GetComponentInParent<EnemyDetector>();
+                var enemy = hit.collider.GetComponentInParent<EnemyAI>();
                 if (enemy != null && enemy.gameObject.activeInHierarchy)
                 {
-                    enemy.OnHit(shotgunPelletDamage);
+                    enemy.OnHit(shotgunPelletDamage, "Shotgun");
                 }
             }
         }
     }
+
 
     void Reload()
     {

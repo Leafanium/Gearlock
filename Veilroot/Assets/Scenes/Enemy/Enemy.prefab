@@ -105,7 +105,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 1
   m_Enabled: 1
   serializedVersion: 2
@@ -163,9 +163,8 @@ MonoBehaviour:
   surfaceMask:
     serializedVersion: 2
     m_Bits: 64
-  surfaceCheckRadius: 1.89
-  minSurfaceDistance: 2.37
-  maxSurfaceDistance: 4.6
+  surfaceRayDistance: 5
+  surfaceOffset: 4
   crawlSpeed: 3
   climbRotateSpeed: 10
   targetArriveThreshold: 2
