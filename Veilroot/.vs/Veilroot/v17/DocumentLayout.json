@@ -3,7 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E1AB3DB3-CAC9-7BFB-B38A-0517E89BB008}|CodeMonkey_HealthSystem.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\codemonkey\\healthsystem\\scripts\\playerhealthbarui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\gearlock assests\\scripts\\menumusic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:assets\\gearlock assests\\scripts\\menumusic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|c:\\users\\natha\\onedrive\\documents\\github\\gearlock\\veilroot\\assets\\gearlock assests\\scripts\\menucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CBD5D90B-C9B4-32B1-8F3C-ADF15656443A}|Assembly-CSharp.csproj|solutionrelative:assets\\gearlock assests\\scripts\\menucontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1AB3DB3-CAC9-7BFB-B38A-0517E89BB008}|CodeMonkey_HealthSystem.csproj|C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\assets\\codemonkey\\healthsystem\\scripts\\playerhealthbarui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E1AB3DB3-CAC9-7BFB-B38A-0517E89BB008}|CodeMonkey_HealthSystem.csproj|solutionrelative:assets\\codemonkey\\healthsystem\\scripts\\playerhealthbarui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -34,11 +42,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "MENUMUSIC.cs",
+              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\MENUMUSIC.cs",
+              "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\MENUMUSIC.cs",
+              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\MENUMUSIC.cs",
+              "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\MENUMUSIC.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T00:15:00.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MenuController.cs",
+              "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\MenuController.cs",
+              "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\MenuController.cs",
+              "ToolTip": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\MenuController.cs",
+              "RelativeToolTip": "Assets\\Gearlock Assests\\Scripts\\MenuController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T00:05:41.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "MouseLook.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\Gearlock Assests\\Scripts\\MouseLook.cs",
               "RelativeDocumentMoniker": "Assets\\Gearlock Assests\\Scripts\\MouseLook.cs",
@@ -50,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "DONOT USE ONLY FOR TESTING.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\New Scripts\\DONOT USE ONLY FOR TESTING.cs",
               "RelativeDocumentMoniker": "Assets\\New Scripts\\DONOT USE ONLY FOR TESTING.cs",
@@ -62,7 +96,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Readme_HealthSystem.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\CodeMonkey\\HealthSystem\\_Readme\\Readme_HealthSystem.cs",
               "RelativeDocumentMoniker": "Assets\\CodeMonkey\\HealthSystem\\_Readme\\Readme_HealthSystem.cs",
@@ -74,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "HealthBarUI.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
               "RelativeDocumentMoniker": "Assets\\CodeMonkey\\HealthSystem\\Scripts\\HealthBarUI.cs",
@@ -86,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "PlayerHealthBarUI.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\CodeMonkey\\HealthSystem\\Scripts\\PlayerHealthBarUI.cs",
               "RelativeDocumentMoniker": "Assets\\CodeMonkey\\HealthSystem\\Scripts\\PlayerHealthBarUI.cs",
@@ -94,12 +128,11 @@
               "RelativeToolTip": "Assets\\CodeMonkey\\HealthSystem\\Scripts\\PlayerHealthBarUI.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAAAuwGIAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T20:50:59.291Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-14T20:50:59.291Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "WeaponSwapper.cs",
               "DocumentMoniker": "C:\\Users\\natha\\OneDrive\\Documents\\GitHub\\Gearlock\\Veilroot\\Assets\\New Scripts\\WeaponSwapper.cs",
               "RelativeDocumentMoniker": "Assets\\New Scripts\\WeaponSwapper.cs",
