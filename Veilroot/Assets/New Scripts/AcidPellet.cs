@@ -1,39 +1,44 @@
 using UnityEngine;
+using CodeMonkey.HealthSystemCM;
 
 public class AcidPellet : MonoBehaviour
 {
-    public float speed = 8f;
-    public float damage = 10f;
+    public float speed = 30f;
     public float lifetime = 5f;
-    public GameObject impactEffect; // Optional VFX prefab
+    public float damage = 10f;
 
     private Rigidbody rb;
+    private bool launched = false;
+    private Vector3 launchDir;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Destroy(gameObject, lifetime);
+        Destroy(gameObject, lifetime); // auto-destroy to avoid clutter
     }
 
     public void Launch(Vector3 direction)
     {
-        rb.linearVelocity = direction * speed;
+        launchDir = direction.normalized;
+        launched = true;
+    }
+
+    void FixedUpdate()
+    {
+        if (launched && rb != null)
+        {
+            rb.linearVelocity = launchDir * speed;
+        }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player"))
         {
-            var healthComp = collision.gameObject.GetComponent<CodeMonkey.HealthSystemCM.HealthSystemComponent>();
-            if (healthComp != null)
+            if (HealthSystem.TryGetHealthSystem(collision.collider.gameObject, out HealthSystem playerHealth))
             {
-                healthComp.GetHealthSystem().Damage(damage);
+                playerHealth.Damage(damage);
             }
-        }
-
-        if (impactEffect != null)
-        {
-            Instantiate(impactEffect, transform.position, Quaternion.identity);
         }
 
         Destroy(gameObject);

@@ -373,6 +373,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1192416267}
     - target: {fileID: 7515917200405982256, guid: 8b3d79922666f8f498c663f83f3477b2, type: 3}
+      propertyPath: ammoPickupSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 5b006c73a434cb2408c2b3e6c8e54521, type: 3}
+    - target: {fileID: 7515917200405982256, guid: 8b3d79922666f8f498c663f83f3477b2, type: 3}
       propertyPath: currentAmmoText
       value: 
       objectReference: {fileID: 810032662}
